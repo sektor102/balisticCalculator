@@ -10,397 +10,135 @@
 <link rel="manifest" href="manifest.webmanifest">
 <title>WARDOGS Fast Ballistic Calculator</title>
 <style>
-:root{
-  color-scheme:dark;
-  --bg:#0b0f14;--panel:#111821;--panel2:#0e141c;--line:#273444;
-  --text:#e9f1f7;--muted:#8fa1b3;--accent:#59c7ff;--good:#76e6a4;
-  --warn:#ffd166;--bad:#ff6b6b;--input:#081019;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
-body{min-height:100vh;display:flex;justify-content:center;padding:18px}
-.app{width:min(860px,100%)}
-.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
-h1{font-size:18px;margin:0;letter-spacing:.08em}
-.sub{color:var(--muted);font-size:12px;margin-top:4px}
-.weapon{display:flex;gap:6px}
-button{border:1px solid var(--line);background:#151f2a;color:var(--text);border-radius:9px;padding:9px 12px;cursor:pointer;font-weight:650}
-button:hover{border-color:#46627d}
-button.active{border-color:var(--accent);box-shadow:0 0 0 1px #59c7ff40 inset;background:#102131}
-button.danger{color:#ffb1b1}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
-label{display:block;color:var(--muted);font-size:11px;font-weight:750;letter-spacing:.08em;margin-bottom:7px}
-.row{display:flex;gap:8px;align-items:center}
-input{
-  width:100%;background:var(--input);border:1px solid #324154;color:var(--text);
-  border-radius:9px;padding:12px 13px;font-size:18px;outline:none;font-variant-numeric:tabular-nums
-}
-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px #59c7ff20}
-.hint{font-size:11px;color:var(--muted);margin-top:7px}
-.lock{white-space:nowrap}
-.results{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.metric{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}
-.metric .k{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.1em}
-.metric .v{font-size:28px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
-.metric .small{font-size:12px;color:var(--muted);margin-top:2px}
-.solution{margin-top:12px;background:linear-gradient(180deg,#101b25,#0d141c);border:1px solid #31465b;border-radius:12px;padding:14px}
-.solution-title{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.solution-title b{font-size:12px;letter-spacing:.1em}
-.status{font-size:11px;font-weight:800}
-.status.good{color:var(--good)} .status.bad{color:var(--bad)} .status.warn{color:var(--warn)}
-.arcs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.arc{background:#0a1118;border:1px solid var(--line);border-radius:10px;padding:12px}
-.arc .name{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em}
-.arc .mil{font-size:32px;font-weight:900;margin-top:2px}
-.arc .note{font-size:11px;color:var(--muted)}
-.quick,.corr{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
-.quick button,.corr button{padding:8px 10px;font-size:12px}
-.section-title{margin-top:14px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.12em}
-.corrbar{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
-select{background:#0d1620;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px}
-.footer{color:var(--muted);font-size:11px;line-height:1.45;margin-top:12px}
-kbd{background:#1b2733;border:1px solid #344658;border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:#dce8f2}
-@media(max-width:650px){
-  body{padding:10px}.top{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}
-  .results{grid-template-columns:1fr 1fr}.results .metric:first-child{grid-column:1/-1}
-  .arcs{grid-template-columns:1fr}
-}
+:root{color-scheme:dark;--bg:#0b0f14;--panel:#111821;--panel2:#0e141c;--line:#273444;--text:#e9f1f7;--muted:#8fa1b3;--accent:#59c7ff;--good:#76e6a4;--warn:#ffd166;--bad:#ff6b6b;--input:#081019}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh;display:flex;justify-content:center;padding:max(12px,env(safe-area-inset-top)) 12px max(18px,env(safe-area-inset-bottom))}
+.app{width:min(860px,100%)} .top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+h1{font-size:18px;margin:0;letter-spacing:.08em}.sub{color:var(--muted);font-size:12px;margin-top:4px}.weapon{display:flex;gap:6px;flex-wrap:wrap}
+button{border:1px solid var(--line);background:#151f2a;color:var(--text);border-radius:9px;padding:10px 12px;cursor:pointer;font-weight:700}
+button.active{border-color:var(--accent);box-shadow:0 0 0 1px #59c7ff40 inset;background:#102131} button.danger{color:#ffb1b1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card>label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;margin-bottom:9px}
+.coord-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}.axis label{display:block;color:var(--muted);font-size:10px;font-weight:800;margin:0 0 5px 3px}
+input{width:100%;min-width:0;background:var(--input);border:1px solid #324154;color:var(--text);border-radius:9px;padding:12px 11px;font-size:20px;outline:none;font-variant-numeric:tabular-nums}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 2px #59c7ff20}.iconbtn{height:48px;min-width:52px}.hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.35}
+.results{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.metric .k{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.1em}.metric .v{font-size:28px;font-weight:850;margin-top:4px;font-variant-numeric:tabular-nums}.metric .small{font-size:12px;color:var(--muted);margin-top:2px}
+.solution{margin-top:12px;background:linear-gradient(180deg,#101b25,#0d141c);border:1px solid #31465b;border-radius:12px;padding:14px}.solution-title{display:flex;justify-content:space-between;gap:10px;align-items:center}.solution-title b{font-size:12px;letter-spacing:.1em}.status{font-size:11px;font-weight:800}.status.good{color:var(--good)}.status.bad{color:var(--bad)}.status.warn{color:var(--warn)}
+.arcs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.arc{background:#0a1118;border:1px solid var(--line);border-radius:10px;padding:12px}.arc .name{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em}.arc .mil{font-size:32px;font-weight:900;margin-top:2px}.arc .note{font-size:11px;color:var(--muted)}
+.section-title{margin-top:14px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.12em}.corrbar{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}.corr{display:flex;flex-wrap:wrap;gap:7px}.corr button{padding:8px 10px;font-size:12px}select{background:#0d1620;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px}.footer{color:var(--muted);font-size:11px;line-height:1.45;margin-top:12px}
+@media(max-width:650px){body{padding-left:10px;padding-right:10px}.top{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}.results{grid-template-columns:1fr 1fr}.results .metric:first-child{grid-column:1/-1}.arcs{grid-template-columns:1fr}.coord-row{grid-template-columns:1fr 1fr auto}h1{font-size:17px}.metric .v{font-size:26px}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
-    <div>
-      <h1>WARDOGS // FAST FIRE</h1>
-      <div class="sub">Gun сохраняется. На следующую цель меняешь только одну пару координат.</div>
-    </div>
-    <div class="weapon">
-      <button id="wMortar" data-w="mortar">1 · L81</button>
-      <button id="wSpg" data-w="spg">2 · SPH-2</button>
-    </div>
+    <div><h1>WARDOGS // FAST FIRE</h1><div class="sub">Один раз сохраняешь орудие. Дальше меняешь только X/Y цели.</div></div>
+    <div class="weapon"><button data-w="mortar">L81 Mortar</button><button data-w="spg">SPH-2 Artillery</button></div>
   </div>
 
   <div class="grid">
     <div class="card">
       <label>GUN · ПОЗИЦИЯ ОРУДИЯ</label>
-      <div class="row">
-        <input id="gun" autocomplete="off" spellcheck="false" placeholder="7912 6754" inputmode="numeric" enterkeyhint="next">
-        <button id="lockGun" class="lock" title="Сохранить позицию орудия">🔒</button>
+      <div class="coord-row">
+        <div class="axis"><label for="gunX">X</label><input id="gunX" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="7912" enterkeyhint="next"></div>
+        <div class="axis"><label for="gunY">Y</label><input id="gunY" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="6754" enterkeyhint="done"></div>
+        <button id="lockGun" class="iconbtn" title="Сохранить позицию орудия">🔒</button>
       </div>
-      <div class="hint">Можно <b>7912 6754</b> → <b>79.12 67.54</b> или <b>10212 6754</b> → <b>102.12 67.54</b>. Хоткей: <kbd>G</kbd>.</div>
+      <div class="hint">Без точек: <b>7912 → 79.12</b>, <b>10212 → 102.12</b>. Точка добавляется после выхода из поля.</div>
     </div>
+
     <div class="card">
       <label>TARGET · ЦЕЛЬ</label>
-      <div class="row">
-        <input id="target" autocomplete="off" spellcheck="false" placeholder="8364 7285" inputmode="numeric" enterkeyhint="done" autofocus>
-        <button id="clearTarget" class="danger" title="Очистить цель">×</button>
+      <div class="coord-row">
+        <div class="axis"><label for="targetX">X</label><input id="targetX" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="9479" enterkeyhint="next"></div>
+        <div class="axis"><label for="targetY">Y</label><input id="targetY" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="5884" enterkeyhint="done"></div>
+        <button id="clearTarget" class="iconbtn danger" title="Очистить цель">×</button>
       </div>
-      <div class="hint">Быстрый ввод: <b>8364 7285</b>, <b>10212 7285</b>; для двух 2-значных координат можно слитно <b>83647285</b>.</div>
+      <div class="hint">На iPhone X и Y разделены специально: цифровая клавиатура не даёт нормально вводить пробел между координатами.</div>
     </div>
   </div>
 
   <div class="results">
-    <div class="metric">
-      <div class="k">DISTANCE</div><div class="v" id="distance">—</div><div class="small">метров</div>
-    </div>
-    <div class="metric">
-      <div class="k">AZIMUTH</div><div class="v" id="azimuth">—</div><div class="small">0° = север</div>
-    </div>
-    <div class="metric">
-      <div class="k">DELTA GRID</div><div class="v" id="delta">—</div><div class="small">ΔX / ΔY, м</div>
-    </div>
+    <div class="metric"><div class="k">DISTANCE</div><div class="v" id="distance">—</div><div class="small">метров</div></div>
+    <div class="metric"><div class="k">AZIMUTH</div><div class="v" id="azimuth">—</div><div class="small">0° = север</div></div>
+    <div class="metric"><div class="k">DELTA GRID</div><div class="v" id="delta">—</div><div class="small">ΔX / ΔY, м</div></div>
   </div>
 
   <div class="solution">
-    <div class="solution-title">
-      <b>FIRING SOLUTION</b>
-      <span id="status" class="status">ЖДУ КООРДИНАТЫ</span>
-    </div>
-    <div class="arcs" id="arcs">
-      <div class="arc"><div class="name">ELEVATION</div><div class="mil">—</div><div class="note">mil</div></div>
-    </div>
-  </div>
-
-  <div class="section-title">BAKURANI · БЫСТРЫЕ ЦЕЛИ</div>
-  <div class="quick">
-    <button data-t="80.52 69.85">T1</button>
-    <button data-t="77.19 70.00">T2</button>
-    <button data-t="77.18 73.46">T3</button>
-    <button data-t="83.63 72.86">T4</button>
-    <button data-t="82.21 68.43">T5</button>
+    <div class="solution-title"><b>FIRING SOLUTION</b><span id="status" class="status">ЖДУ КООРДИНАТЫ</span></div>
+    <div class="arcs" id="arcs"><div class="arc"><div class="name">ELEVATION</div><div class="mil">—</div><div class="note">mil</div></div></div>
   </div>
 
   <div class="section-title">КОРРЕКЦИЯ ПО ПЕРВОМУ ВЫСТРЕЛУ</div>
   <div class="corrbar">
-    <select id="corrStep">
-      <option value="10">10 м</option>
-      <option value="25">25 м</option>
-      <option value="50" selected>50 м</option>
-      <option value="100">100 м</option>
-    </select>
-    <div class="corr">
-      <button data-c="short">УПАЛ КОРОТКО → дальше</button>
-      <button data-c="long">ПЕРЕЛЁТ → ближе</button>
-      <button data-c="left">УПАЛ СЛЕВА → правее</button>
-      <button data-c="right">УПАЛ СПРАВА → левее</button>
-    </div>
+    <select id="corrStep"><option value="10">10 м</option><option value="25">25 м</option><option value="50" selected>50 м</option><option value="100">100 м</option></select>
+    <div class="corr"><button data-c="short">КОРОТКО → дальше</button><button data-c="long">ПЕРЕЛЁТ → ближе</button><button data-c="left">СЛЕВА → правее</button><button data-c="right">СПРАВА → левее</button></div>
   </div>
 
-  <div class="footer">
-    <b>Самый быстрый сценарий:</b> один раз вводишь координаты орудия → блокируешь → дальше только цель.
-    <kbd>1</kbd>/<kbd>2</kbd> меняют оружие. Расчёт идёт сразу, Enter не нужен.
-    Таблицы подгружаются из текущего open-source community dataset; при недоступности сети используется встроенный fallback.
-    Высота рельефа и наклон SPH-2 автоматически не компенсируются.
-  </div>
+  <div class="footer">Калькулятор универсален для карт с сеткой 100 м. Высота рельефа и наклон SPH-2 автоматически не компенсируются.</div>
 </div>
-
 <script>
 (() => {
-  const $ = id => document.getElementById(id);
-  const gunEl=$('gun'), targetEl=$('target'), distanceEl=$('distance'), azimuthEl=$('azimuth'),
-        deltaEl=$('delta'), arcsEl=$('arcs'), statusEl=$('status');
+  const $=id=>document.getElementById(id);
+  const gunX=$('gunX'),gunY=$('gunY'),targetX=$('targetX'),targetY=$('targetY');
+  const distanceEl=$('distance'),azimuthEl=$('azimuth'),deltaEl=$('delta'),arcsEl=$('arcs'),statusEl=$('status');
+  let weapon=localStorage.getItem('wd_weapon')||'spg';
+  let gunLocked=localStorage.getItem('wd_gun_locked')!=='0';
 
-  let weapon = localStorage.getItem('wd_weapon') || 'spg';
-  let gunLocked = localStorage.getItem('wd_gun_locked') !== '0';
-  const savedGun = localStorage.getItem('wd_gun');
-  if(savedGun) gunEl.value = savedGun;
-
-  let data = {
-    mortar:{
-      min:132,max:684,
-      single:[[132,850],[151,830],[175,810],[198,790],[219,770],[239,750],[260,730],[280,710],[300,690],[319,670],[339,650],[358,630],[376,610],[394,590],[412,570],[429,550],[446,530],[462,510],[478,490],[494,470],[509,450],[524,430],[538,410],[552,390],[565,370],[578,350],[591,330],[603,310],[615,290],[626,270],[636,250],[646,230],[656,210],[666,190],[675,170],[684,150]]
-    },
-    spg:{
-      min:780,max:2629,
-      low:[[1181,20],[1384,60],[1576,100],[1751,140],[1907,180],[2046,220],[2168,260],[2273,300],[2362,340],[2439,380],[2499,420],[2550,460],[2586,500],[2610,540],[2626,580],[2629,600]],
-      high:[[2629,610],[2624,650],[2604,700],[2567,750],[2513,800],[2444,850],[2360,900],[2261,950],[2147,1000],[2019,1050],[1875,1100],[1717,1150],[1547,1200],[1363,1250],[1165,1300],[956,1350],[780,1390]]
-    }
+  let data={
+    mortar:{min:132,max:684,single:[[132,850],[151,830],[175,810],[198,790],[219,770],[239,750],[260,730],[280,710],[300,690],[319,670],[339,650],[358,630],[376,610],[394,590],[412,570],[429,550],[446,530],[462,510],[478,490],[494,470],[509,450],[524,430],[538,410],[552,390],[565,370],[578,350],[591,330],[603,310],[615,290],[626,270],[636,250],[646,230],[656,210],[666,190],[675,170],[684,150]]},
+    spg:{min:780,max:2629,low:[[1181,20],[1384,60],[1576,100],[1751,140],[1907,180],[2046,220],[2168,260],[2273,300],[2362,340],[2439,380],[2499,420],[2550,460],[2586,500],[2610,540],[2626,580],[2629,600]],high:[[2629,610],[2624,650],[2604,700],[2567,750],[2513,800],[2444,850],[2360,900],[2261,950],[2147,1000],[2019,1050],[1875,1100],[1717,1150],[1547,1200],[1363,1250],[1165,1300],[956,1350],[780,1390]]}
   };
 
-  async function loadCurrentTables(){
-    try{
-      const r = await fetch('https://raw.githubusercontent.com/apollyon-sys/wardogs-calculator/main/data/weapons.json', {cache:'no-store'});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      const j = await r.json();
-      const m = j.weapons.find(w=>w.id==='mortar');
-      const s = j.weapons.find(w=>w.id==='spg');
-      if(m?.ballistics?.single && s?.ballistics?.low && s?.ballistics?.high){
-        data.mortar={min:Math.round(m.minRangeKm*1000),max:Math.round(m.maxRangeKm*1000),single:m.ballistics.single};
-        data.spg={min:Math.round(s.minRangeKm*1000),max:Math.round(s.maxRangeKm*1000),low:s.ballistics.low,high:s.ballistics.high};
-        statusEl.title='Таблица обновлена из community dataset';
-        calc();
-      }
-    }catch(e){
-      statusEl.title='Используется встроенная fallback-таблица';
-    }
-  }
+  async function loadCurrentTables(){try{const r=await fetch('https://raw.githubusercontent.com/apollyon-sys/wardogs-calculator/main/data/weapons.json',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();const m=j.weapons.find(w=>w.id==='mortar'),s=j.weapons.find(w=>w.id==='spg');if(m?.ballistics?.single&&s?.ballistics?.low&&s?.ballistics?.high){data.mortar={min:Math.round(m.minRangeKm*1000),max:Math.round(m.maxRangeKm*1000),single:m.ballistics.single};data.spg={min:Math.round(s.minRangeKm*1000),max:Math.round(s.maxRangeKm*1000),low:s.ballistics.low,high:s.ballistics.high};calc();}}catch(e){}}
 
-  function compactTokenToCoord(token){
-    const clean=String(token).replace(/[^\d+-]/g,'');
-    const sign=clean.startsWith('-')?'-':'';
-    const digits=clean.replace(/^[+-]/,'');
-    if(/^\d{4,5}$/.test(digits)){
-      return sign + digits.slice(0,-2) + '.' + digits.slice(-2);
-    }
-    return token;
-  }
-
-  function normalizeCoordText(s){
-    if(!s) return '';
-    let raw=String(s).trim();
-    raw=raw.replace(/(\d),(\d{2})(?=\s|$|[xyXY])/g, '$1.$2');
-    const onlyDigits=raw.replace(/[^\d]/g,'');
-    if(/^\d{8}$/.test(onlyDigits) && !/[.\s,;]/.test(raw)){
-      return `${onlyDigits.slice(0,2)}.${onlyDigits.slice(2,4)} ${onlyDigits.slice(4,6)}.${onlyDigits.slice(6,8)}`;
-    }
-    raw=raw.replace(/([xyXY]\s*)?([+-]?\d{4,5})(?!\d)/g,(m,label,num)=>{
-      return (label||'') + compactTokenToCoord(num);
-    });
-    return raw;
-  }
-
-  function parseCoord(s){
-    if(!s) return null;
-    const normalized=normalizeCoordText(s);
-    const nums = normalized.replace(/,/g,' ').match(/[-+]?\d+(?:\.\d+)?/g);
-    if(!nums || nums.length<2) return null;
-    const x=Number(nums[0]), y=Number(nums[1]);
-    if(!Number.isFinite(x)||!Number.isFinite(y)) return null;
-    return {x,y};
-  }
-
-  function fmtCoord(p){ return `${p.x.toFixed(2)} ${p.y.toFixed(2)}`; }
-
-  function hasCompletePair(s){
-    const normalized=normalizeCoordText(s);
-    const tokens=normalized.match(/[-+]?\d+(?:\.\d+)?/g) || [];
-    if(tokens.length < 2) return false;
-    const complete = token => /^[-+]?\d+\.\d{2}$/.test(token);
-    return complete(tokens[0]) && complete(tokens[1]);
-  }
-
-  function autoFormatField(el, canonicalize=false){
-    const before=el.value;
-    const normalized=normalizeCoordText(before);
-    el.value=normalized;
-    if(canonicalize && hasCompletePair(normalized)){
-      const p=parseCoord(normalized);
-      if(p) el.value=fmtCoord(p);
-    }
-  }
-
-  function interp(table, dist){
-    if(!table?.length) return null;
-    for(let i=0;i<table.length-1;i++){
-      const [d1,m1]=table[i], [d2,m2]=table[i+1];
-      const lo=Math.min(d1,d2), hi=Math.max(d1,d2);
-      if(dist>=lo && dist<=hi){
-        if(d1===d2) return Math.min(m1,m2);
-        const t=(dist-d1)/(d2-d1);
-        return m1+t*(m2-m1);
-      }
-    }
-    for(const [d,m] of table) if(Math.abs(dist-d)<0.001) return m;
+  function parseOne(value){
+    const s=String(value??'').trim().replace(',','.');
+    if(!s)return null;
+    if(/^\d{1,3}\.\d{1,2}$/.test(s)){const n=Number(s);return Number.isFinite(n)?n:null;}
+    if(/^\d{3,5}$/.test(s)){const n=Number(s)/100;return Number.isFinite(n)?n:null;}
     return null;
   }
+  function formatOne(el){const n=parseOne(el.value);if(n!==null)el.value=n.toFixed(2);}
+  function pair(xEl,yEl){const x=parseOne(xEl.value),y=parseOne(yEl.value);return x===null||y===null?null:{x,y};}
+  function setPair(xEl,yEl,p){xEl.value=p.x.toFixed(2);yEl.value=p.y.toFixed(2);}
 
-  function setStatus(text, cls=''){
-    statusEl.textContent=text;
-    statusEl.className='status '+cls;
+  function loadGun(){
+    try{const s=JSON.parse(localStorage.getItem('wd_gun_v2')||'null');if(s&&Number.isFinite(s.x)&&Number.isFinite(s.y)){setPair(gunX,gunY,s);return;}}catch(e){}
+    const old=localStorage.getItem('wd_gun');
+    if(old){const m=old.match(/^\s*(\d{1,3}\.\d{2})\s+(\d{1,3}\.\d{2})\s*$/);if(m)setPair(gunX,gunY,{x:Number(m[1]),y:Number(m[2])});}
   }
+  function saveGun(){const g=pair(gunX,gunY);if(g)localStorage.setItem('wd_gun_v2',JSON.stringify(g));}
 
-  function arcBox(name, mil, note='mil'){
-    const shown = mil==null ? '—' : Math.round(mil);
-    return `<div class="arc"><div class="name">${name}</div><div class="mil">${shown}</div><div class="note">${mil==null?'нет решения':note}</div></div>`;
-  }
+  function interp(table,dist){if(!table?.length)return null;for(let i=0;i<table.length-1;i++){const[d1,m1]=table[i],[d2,m2]=table[i+1],lo=Math.min(d1,d2),hi=Math.max(d1,d2);if(dist>=lo&&dist<=hi){if(d1===d2)return Math.min(m1,m2);return m1+(dist-d1)/(d2-d1)*(m2-m1);}}for(const[d,m]of table)if(Math.abs(dist-d)<.001)return m;return null;}
+  function setStatus(text,cls=''){statusEl.textContent=text;statusEl.className='status '+cls;}
+  function arcBox(name,mil,note='mil'){return `<div class="arc"><div class="name">${name}</div><div class="mil">${mil==null?'—':Math.round(mil)}</div><div class="note">${mil==null?'нет решения':note}</div></div>`;}
+  function updateWeapon(){document.querySelectorAll('[data-w]').forEach(b=>b.classList.toggle('active',b.dataset.w===weapon));}
+  function setWeapon(w){weapon=w;localStorage.setItem('wd_weapon',w);updateWeapon();calc();}
 
   function calc(){
-    const g=parseCoord(gunEl.value), t=parseCoord(targetEl.value);
-    updateWeaponButtons();
-    if(!g || !t){
-      distanceEl.textContent='—'; azimuthEl.textContent='—'; deltaEl.textContent='—';
-      arcsEl.innerHTML=arcBox(weapon==='spg'?'LOW / HIGH':'ELEVATION',null);
-      setStatus('ЖДУ КООРДИНАТЫ');
-      return;
-    }
-    const dx=(t.x-g.x)*100, dy=(t.y-g.y)*100;
-    const dist=Math.hypot(dx,dy);
-    const azi=(Math.atan2(dx,dy)*180/Math.PI+360)%360;
-    distanceEl.textContent=Math.round(dist);
-    azimuthEl.textContent=azi.toFixed(1)+'°';
-    deltaEl.textContent=`${dx>=0?'+':''}${Math.round(dx)} / ${dy>=0?'+':''}${Math.round(dy)}`;
-
+    const g=pair(gunX,gunY),t=pair(targetX,targetY);updateWeapon();
+    if(!g||!t){distanceEl.textContent='—';azimuthEl.textContent='—';deltaEl.textContent='—';arcsEl.innerHTML=arcBox(weapon==='spg'?'LOW / HIGH':'ELEVATION',null);setStatus('ЖДУ КООРДИНАТЫ');return;}
+    const dx=(t.x-g.x)*100,dy=(t.y-g.y)*100,dist=Math.hypot(dx,dy),azi=(Math.atan2(dx,dy)*180/Math.PI+360)%360;
+    distanceEl.textContent=Math.round(dist);azimuthEl.textContent=azi.toFixed(1)+'°';deltaEl.textContent=`${dx>=0?'+':''}${Math.round(dx)} / ${dy>=0?'+':''}${Math.round(dy)}`;
     const w=data[weapon];
-    if(dist<w.min || dist>w.max){
-      arcsEl.innerHTML = weapon==='spg'
-        ? arcBox('LOW ARC',null)+arcBox('HIGH ARC',null)
-        : arcBox('L81 ELEVATION',null);
-      setStatus(`ВНЕ ДАЛЬНОСТИ · ${w.min}–${w.max} м`,'bad');
-      return;
-    }
-
-    if(weapon==='mortar'){
-      const mil=interp(w.single,dist);
-      arcsEl.innerHTML=arcBox('L81 ELEVATION',mil,'mil · округлено до целого');
-      setStatus(mil==null?'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ':'В ДАЛЬНОСТИ','good');
-    }else{
-      const low=interp(w.low,dist);
-      const high=interp(w.high,dist);
-      arcsEl.innerHTML=arcBox('LOW ARC',low,'mil · быстрее')+arcBox('HIGH ARC',high,'mil · навеснее');
-      setStatus((low||high)?'В ДАЛЬНОСТИ':'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ',(low||high)?'good':'warn');
-    }
+    if(dist<w.min||dist>w.max){arcsEl.innerHTML=weapon==='spg'?arcBox('LOW ARC',null)+arcBox('HIGH ARC',null):arcBox('L81 ELEVATION',null);setStatus(`ВНЕ ДАЛЬНОСТИ · ${w.min}–${w.max} м`,'bad');return;}
+    if(weapon==='mortar'){const mil=interp(w.single,dist);arcsEl.innerHTML=arcBox('L81 ELEVATION',mil,'mil');setStatus(mil==null?'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ':'В ДАЛЬНОСТИ',mil==null?'warn':'good');}
+    else{const low=interp(w.low,dist),high=interp(w.high,dist);arcsEl.innerHTML=arcBox('LOW ARC',low,'mil · быстрее')+arcBox('HIGH ARC',high,'mil · навеснее');setStatus((low||high)?'В ДАЛЬНОСТИ':'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ',(low||high)?'good':'warn');}
   }
 
-  function updateWeaponButtons(){
-    document.querySelectorAll('[data-w]').forEach(b=>b.classList.toggle('active',b.dataset.w===weapon));
-  }
-
-  function setWeapon(w){
-    weapon=w; localStorage.setItem('wd_weapon',w); calc();
-  }
-
+  [gunX,gunY,targetX,targetY].forEach(el=>{el.addEventListener('input',()=>{if(gunLocked&&(el===gunX||el===gunY))saveGun();calc();});el.addEventListener('blur',()=>{formatOne(el);if(gunLocked&&(el===gunX||el===gunY))saveGun();calc();});});
+  gunX.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();gunY.focus();gunY.select();}});
+  targetX.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();targetY.focus();targetY.select();}});
   document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>setWeapon(b.dataset.w));
+  $('lockGun').onclick=()=>{gunLocked=!gunLocked;localStorage.setItem('wd_gun_locked',gunLocked?'1':'0');$('lockGun').textContent=gunLocked?'🔒':'🔓';if(gunLocked)saveGun();};
+  $('clearTarget').onclick=()=>{targetX.value='';targetY.value='';calc();targetX.focus();};
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const g=pair(gunX,gunY),t=pair(targetX,targetY);if(!g||!t)return;const step=Number($('corrStep').value),dx=(t.x-g.x)*100,dy=(t.y-g.y)*100,d=Math.hypot(dx,dy);if(!d)return;const ux=dx/d,uy=dy/d,rx=uy,ry=-ux;let mx=0,my=0;if(b.dataset.c==='short'){mx=ux*step;my=uy*step}if(b.dataset.c==='long'){mx=-ux*step;my=-uy*step}if(b.dataset.c==='left'){mx=rx*step;my=ry*step}if(b.dataset.c==='right'){mx=-rx*step;my=-ry*step}setPair(targetX,targetY,{x:t.x+mx/100,y:t.y+my/100});calc();});
 
-  function saveGun(forceFormat=false){
-    if(!hasCompletePair(gunEl.value)) return;
-    const g=parseCoord(gunEl.value);
-    if(g){
-      if(forceFormat) gunEl.value=fmtCoord(g);
-      localStorage.setItem('wd_gun',fmtCoord(g));
-    }
-  }
-  gunEl.addEventListener('input',()=>{
-    autoFormatField(gunEl, false);
-    if(gunLocked) saveGun(false);
-    calc();
-  });
-  gunEl.addEventListener('blur',()=>{
-    autoFormatField(gunEl, true);
-    saveGun(true);
-  });
+  document.addEventListener('keydown',e=>{if(e.ctrlKey||e.altKey||e.metaKey)return;const tag=document.activeElement?.tagName,typing=tag==='INPUT'||tag==='SELECT';if(!typing&&(e.key==='g'||e.key==='G')){gunX.focus();gunX.select()}if(!typing&&(e.key==='t'||e.key==='T'||e.key==='/')){targetX.focus();targetX.select()}if(!typing&&e.key==='1')setWeapon('mortar');if(!typing&&e.key==='2')setWeapon('spg');});
 
-  targetEl.addEventListener('input',()=>{
-    autoFormatField(targetEl, false);
-    calc();
-  });
-  targetEl.addEventListener('blur',()=>autoFormatField(targetEl, true));
-
-  $('lockGun').onclick=()=>{
-    gunLocked=!gunLocked;
-    localStorage.setItem('wd_gun_locked',gunLocked?'1':'0');
-    $('lockGun').textContent=gunLocked?'🔒':'🔓';
-    if(gunLocked) saveGun();
-  };
-  $('lockGun').textContent=gunLocked?'🔒':'🔓';
-
-  $('clearTarget').onclick=()=>{targetEl.value='';calc();targetEl.focus();};
-
-  document.querySelectorAll('[data-t]').forEach(b=>{
-    b.onclick=()=>{targetEl.value=b.dataset.t;calc();targetEl.focus();targetEl.select();};
-  });
-
-  function applyCorrection(kind){
-    const g=parseCoord(gunEl.value), t=parseCoord(targetEl.value);
-    if(!g||!t) return;
-    const step=Number($('corrStep').value);
-    let dx=(t.x-g.x)*100, dy=(t.y-g.y)*100;
-    const d=Math.hypot(dx,dy); if(d<0.001) return;
-    const ux=dx/d, uy=dy/d;
-    const rx=uy, ry=-ux;
-    let mx=0,my=0;
-    if(kind==='short'){ mx=ux*step; my=uy*step; }
-    if(kind==='long'){ mx=-ux*step; my=-uy*step; }
-    if(kind==='left'){ mx=rx*step; my=ry*step; }
-    if(kind==='right'){ mx=-rx*step; my=-ry*step; }
-    const nt={x:t.x+mx/100,y:t.y+my/100};
-    targetEl.value=fmtCoord(nt); calc();
-  }
-  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>applyCorrection(b.dataset.c));
-
-  document.addEventListener('keydown',e=>{
-    if(e.ctrlKey||e.altKey||e.metaKey) return;
-    const tag=document.activeElement?.tagName;
-    const typing=tag==='INPUT' || tag==='SELECT';
-    if(!typing && (e.key==='g'||e.key==='G')){e.preventDefault();gunEl.focus();gunEl.select();}
-    if(!typing && (e.key==='t'||e.key==='T'||e.key==='/')){e.preventDefault();targetEl.focus();targetEl.select();}
-    if(!typing && e.key==='1'){e.preventDefault();setWeapon('mortar');}
-    if(!typing && e.key==='2'){e.preventDefault();setWeapon('spg');}
-    if(e.key==='Escape'){targetEl.value='';calc();targetEl.focus();}
-  });
-
-  document.addEventListener('paste',e=>{
-    const tag=document.activeElement?.tagName;
-    if(tag==='INPUT') return;
-    const text=e.clipboardData?.getData('text')||'';
-    if(parseCoord(text)){ e.preventDefault(); targetEl.value=text; calc(); targetEl.focus(); targetEl.select(); }
-  });
-
-  updateWeaponButtons(); calc(); loadCurrentTables();
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-  }
+  loadGun();$('lockGun').textContent=gunLocked?'🔒':'🔓';updateWeapon();calc();loadCurrentTables();
+  if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>
