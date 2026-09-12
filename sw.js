@@ -1,4 +1,4 @@
-const CACHE = 'wardogs-fast-fire-v6-ocr2';
+const CACHE = 'wardogs-fast-fire-v7-ocr4';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './ocr-v2.js'];
 
 self.addEventListener('install', event => {
@@ -21,8 +21,8 @@ self.addEventListener('activate', event => {
 async function injectOCR(response) {
   const html = await response.text();
   const patched = html.includes('ocr-v2.js')
-    ? html
-    : html.replace('</body>', '<script src="./ocr-v2.js?v=2"></script></body>');
+    ? html.replace(/ocr-v2\.js(?:\?v=\d+)?/g, 'ocr-v2.js?v=4')
+    : html.replace('</body>', '<script src="./ocr-v2.js?v=4"></script></body>');
   const headers = new Headers(response.headers);
   headers.delete('content-length');
   headers.set('content-type','text/html; charset=utf-8');
