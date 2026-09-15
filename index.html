@@ -8,79 +8,365 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="WARDOGS">
 <link rel="manifest" href="manifest.webmanifest">
-<title>WARDOGS Fast Ballistic Calculator</title>
+<title>WARDOGS Fast Fire</title>
 <style>
-:root{color-scheme:dark;--bg:#0b0f14;--panel:#111821;--panel2:#0e141c;--line:#273444;--text:#e9f1f7;--muted:#8fa1b3;--accent:#59c7ff;--good:#76e6a4;--warn:#ffd166;--bad:#ff6b6b;--input:#081019}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}body{min-height:100vh;display:flex;justify-content:center;padding:max(12px,env(safe-area-inset-top)) 12px max(18px,env(safe-area-inset-bottom))}.app{width:min(860px,100%)}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}h1{font-size:18px;margin:0;letter-spacing:.08em}.sub{color:var(--muted);font-size:12px;margin-top:4px}.weapon{display:flex;gap:6px;flex-wrap:wrap}button{border:1px solid var(--line);background:#151f2a;color:var(--text);border-radius:9px;padding:10px 12px;cursor:pointer;font-weight:700}button.active{border-color:var(--accent);box-shadow:0 0 0 1px #59c7ff40 inset;background:#102131}button.danger{color:#ffb1b1}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}.card>label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;margin-bottom:9px}.coord-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}.axis label{display:block;color:var(--muted);font-size:10px;font-weight:800;margin:0 0 5px 3px}input{width:100%;min-width:0;background:var(--input);border:1px solid #324154;color:var(--text);border-radius:9px;padding:12px 11px;font-size:20px;outline:none;font-variant-numeric:tabular-nums}input:focus{border-color:var(--accent);box-shadow:0 0 0 2px #59c7ff20}.iconbtn{height:48px;min-width:52px}.hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.35}.scanbtn{width:100%;margin-top:10px;border-color:#355874;background:#102131}.scan-status{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--muted);display:none}.scan-status.show{display:block}.scan-status.good{color:var(--good);border-color:#276644}.scan-status.bad{color:var(--bad);border-color:#6e3232}.scan-status.busy{color:var(--warn)}.results{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.metric .k{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.1em}.metric .v{font-size:28px;font-weight:850;margin-top:4px;font-variant-numeric:tabular-nums}.metric .small{font-size:12px;color:var(--muted);margin-top:2px}.solution{margin-top:12px;background:linear-gradient(180deg,#101b25,#0d141c);border:1px solid #31465b;border-radius:12px;padding:14px}.solution-title{display:flex;justify-content:space-between;gap:10px;align-items:center}.solution-title b{font-size:12px;letter-spacing:.1em}.status{font-size:11px;font-weight:800}.status.good{color:var(--good)}.status.bad{color:var(--bad)}.status.warn{color:var(--warn)}.arcs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.arc{background:#0a1118;border:1px solid var(--line);border-radius:10px;padding:12px}.arc .name{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em}.arc .mil{font-size:32px;font-weight:900;margin-top:2px}.arc .note{font-size:11px;color:var(--muted)}.section-title{margin-top:14px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.12em}.corrbar{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}.corr{display:flex;flex-wrap:wrap;gap:7px}.corr button{padding:8px 10px;font-size:12px}select{background:#0d1620;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px}.footer{color:var(--muted);font-size:11px;line-height:1.45;margin-top:12px}.hidden{display:none!important}
-@media(max-width:650px){body{padding-left:10px;padding-right:10px}.top{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}.results{grid-template-columns:1fr 1fr}.results .metric:first-child{grid-column:1/-1}.arcs{grid-template-columns:1fr}.coord-row{grid-template-columns:1fr 1fr auto}h1{font-size:17px}.metric .v{font-size:26px}}
+:root{color-scheme:dark;--bg:#0b0f14;--panel:#111821;--panel2:#0d151e;--line:#293849;--text:#eef5fb;--muted:#91a4b7;--accent:#59c7ff;--good:#6fe3a0;--warn:#ffd166;--bad:#ff7878;--input:#071019}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}body{min-height:100vh;padding:max(14px,env(safe-area-inset-top)) 12px 112px}.app{width:min(760px,100%);margin:auto}.top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}h1{font-size:19px;margin:0;letter-spacing:.08em}.sub{color:var(--muted);font-size:12px;margin-top:5px}.weapon{display:flex;gap:7px;flex-wrap:wrap}button{border:1px solid var(--line);background:#14202b;color:var(--text);border-radius:11px;padding:11px 13px;font-weight:750;font-size:14px;cursor:pointer}button.active{border-color:var(--accent);box-shadow:0 0 0 1px #59c7ff50 inset;background:#102333}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;margin-top:12px}.label{color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.10em;margin-bottom:9px}.gun-summary{display:flex;gap:10px;align-items:center;justify-content:space-between}.gun-value{font-size:22px;font-weight:850;font-variant-numeric:tabular-nums}.gun-editor[hidden]{display:none}.fastrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch}.fastinput{width:100%;min-width:0;background:var(--input);border:1px solid #33475c;color:var(--text);border-radius:12px;padding:14px 14px;font-size:27px;letter-spacing:.05em;font-weight:750;outline:none;font-variant-numeric:tabular-nums}.fastinput:focus{border-color:var(--accent);box-shadow:0 0 0 2px #59c7ff22}.newbtn{min-width:106px;color:#ffd3d3;border-color:#5a3439;background:#26161a}.savebtn{margin-top:9px;width:100%}.hint{font-size:11px;color:var(--muted);line-height:1.4;margin-top:8px}.preview{min-height:22px;margin-top:10px;font-size:14px;font-weight:750}.preview.good{color:var(--good)}.preview.warn{color:var(--warn)}.preview.bad{color:var(--bad)}.choices{display:grid;gap:7px;margin-top:9px}.choices button{text-align:left;background:#101c26;border-color:#47627a}.recent{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.recent button{font-size:12px;padding:7px 9px;color:#cbd9e6}.results{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.metric{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:12px}.metric .k{font-size:10px;color:var(--muted);font-weight:850;letter-spacing:.1em}.metric .v{font-size:27px;font-weight:900;margin-top:4px;font-variant-numeric:tabular-nums}.metric .s{font-size:11px;color:var(--muted);margin-top:2px}.solution{margin-top:10px;background:#0d1720;border:1px solid #31475c;border-radius:13px;padding:13px}.solution-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.solution-head b{font-size:11px;letter-spacing:.1em}.status{font-size:11px;font-weight:850}.status.good{color:var(--good)}.status.bad{color:var(--bad)}.status.warn{color:var(--warn)}.arcs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.arc{background:#081018;border:1px solid var(--line);border-radius:11px;padding:11px}.arc .n{font-size:10px;color:var(--muted);font-weight:850}.arc .mil{font-size:30px;font-weight:950;margin-top:2px}.section-title{margin-top:14px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.11em}.corrbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.corr{display:flex;gap:6px;flex-wrap:wrap}.corr button{font-size:12px;padding:8px 9px}select{background:#0d1620;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px}.footer{font-size:11px;color:var(--muted);line-height:1.4;margin:14px 2px}.firebar{position:fixed;z-index:20;left:12px;right:12px;bottom:max(8px,env(safe-area-inset-bottom));margin:auto;width:min(736px,calc(100% - 24px));background:rgba(10,16,23,.96);backdrop-filter:blur(16px);border:1px solid #3a536a;border-radius:16px;padding:9px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;box-shadow:0 8px 30px #0009}.firebar.hidden{display:none}.firecell{text-align:center;border-right:1px solid var(--line);min-width:0}.firecell:last-child{border-right:0}.firecell .k{font-size:9px;color:var(--muted);font-weight:850;letter-spacing:.08em}.firecell .v{font-size:20px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+@media(max-width:650px){body{padding-left:10px;padding-right:10px}.top{flex-direction:column}.weapon button{font-size:13px}.fastinput{font-size:29px;padding:15px 12px}.newbtn{min-width:92px;padding:10px}.results{grid-template-columns:1fr 1fr}.results .metric:first-child{grid-column:1/-1}.arcs{grid-template-columns:1fr}.gun-value{font-size:20px}.firebar{left:10px;right:10px;width:calc(100% - 20px)}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
-    <div><h1>WARDOGS // FAST FIRE</h1><div class="sub">Ручной ввод или камера iPhone → X/Y → DIST / AZ / MIL.</div></div>
-    <div class="weapon"><button data-w="mortar">L81 Mortar</button><button data-w="spg">SPH-2 Artillery</button></div>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <label>GUN · ПОЗИЦИЯ ОРУДИЯ</label>
-      <div class="coord-row">
-        <div class="axis"><label for="gunX">X</label><input id="gunX" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="7912" enterkeyhint="next"></div>
-        <div class="axis"><label for="gunY">Y</label><input id="gunY" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="6754" enterkeyhint="done"></div>
-        <button id="lockGun" class="iconbtn" title="Сохранить позицию орудия">🔒</button>
-      </div>
-      <button id="scanGun" class="scanbtn">📷 Сканировать GUN</button>
-      <div class="hint">Без точек: <b>7912 → 79.12</b>, <b>10212 → 102.12</b>. Для камеры держи игровой крестик примерно в центре кадра.</div>
+    <div>
+      <h1>WARDOGS // FAST FIRE</h1>
+      <div class="sub">FAST INPUT v1 · вводишь только цифры, точки и X/Y не нужны</div>
     </div>
-    <div class="card">
-      <label>TARGET · ЦЕЛЬ</label>
-      <div class="coord-row">
-        <div class="axis"><label for="targetX">X</label><input id="targetX" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="9479" enterkeyhint="next"></div>
-        <div class="axis"><label for="targetY">Y</label><input id="targetY" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="5884" enterkeyhint="done"></div>
-        <button id="clearTarget" class="iconbtn danger" title="Очистить цель">×</button>
-      </div>
-      <button id="scanTarget" class="scanbtn">📷 Сканировать TARGET</button>
-      <div class="hint">Фото распознаётся прямо в браузере. Снимок никуда не отправляется.</div>
+    <div class="weapon">
+      <button data-w="mortar">L81 Mortar</button>
+      <button data-w="spg">SPH-2 Artillery</button>
     </div>
   </div>
-  <input id="scanGunInput" class="hidden" type="file" accept="image/*" capture="environment">
-  <input id="scanTargetInput" class="hidden" type="file" accept="image/*" capture="environment">
-  <div id="scanStatus" class="scan-status" aria-live="polite"></div>
+
+  <div class="card">
+    <div class="label">GUN · ПОЗИЦИЯ ОРУДИЯ</div>
+    <div id="gunSummary" class="gun-summary" hidden>
+      <div id="gunValue" class="gun-value">—</div>
+      <button id="editGun">Изменить</button>
+    </div>
+    <div id="gunEditor" class="gun-editor">
+      <div class="fastrow">
+        <input id="gunQuick" class="fastinput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="81546707">
+        <button id="clearGun" class="newbtn">×</button>
+      </div>
+      <div id="gunPreview" class="preview"></div>
+      <div id="gunChoices" class="choices"></div>
+      <button id="saveGun" class="savebtn">🔒 Сохранить орудие</button>
+      <div class="hint">Пример: <b>81546707 → X 81.54 · Y 67.07</b>. Для координат 100+ просто вводи все цифры подряд.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">TARGET · НОВАЯ ЦЕЛЬ</div>
+    <div class="fastrow">
+      <input id="targetQuick" class="fastinput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="81546707">
+      <button id="newTarget" class="newbtn">× НОВАЯ</button>
+    </div>
+    <div id="targetPreview" class="preview"></div>
+    <div id="targetChoices" class="choices"></div>
+    <div id="recent" class="recent"></div>
+    <div class="hint">8 цифр = 4+4, 10 цифр = 5+5. Для 9 цифр калькулятор проверяет оба разбиения по допустимому диапазону координат; если остаётся неоднозначность — просит один тап, а не угадывает.</div>
+  </div>
+
   <div class="results">
-    <div class="metric"><div class="k">DISTANCE</div><div class="v" id="distance">—</div><div class="small">метров</div></div>
-    <div class="metric"><div class="k">AZIMUTH</div><div class="v" id="azimuth">—</div><div class="small">0° = север</div></div>
-    <div class="metric"><div class="k">DELTA GRID</div><div class="v" id="delta">—</div><div class="small">ΔX / ΔY, м</div></div>
+    <div class="metric"><div class="k">DISTANCE</div><div id="distance" class="v">—</div><div class="s">метров</div></div>
+    <div class="metric"><div class="k">AZIMUTH</div><div id="azimuth" class="v">—</div><div class="s">0° = север</div></div>
+    <div class="metric"><div class="k">DELTA GRID</div><div id="delta" class="v">—</div><div class="s">ΔX / ΔY, м</div></div>
   </div>
-  <div class="solution"><div class="solution-title"><b>FIRING SOLUTION</b><span id="status" class="status">ЖДУ КООРДИНАТЫ</span></div><div class="arcs" id="arcs"><div class="arc"><div class="name">ELEVATION</div><div class="mil">—</div><div class="note">mil</div></div></div></div>
+
+  <div class="solution">
+    <div class="solution-head"><b>FIRING SOLUTION</b><span id="status" class="status">ЖДУ КООРДИНАТЫ</span></div>
+    <div id="arcs" class="arcs"><div class="arc"><div class="n">ELEVATION</div><div class="mil">—</div></div></div>
+  </div>
+
   <div class="section-title">КОРРЕКЦИЯ ПО ПЕРВОМУ ВЫСТРЕЛУ</div>
-  <div class="corrbar"><select id="corrStep"><option value="10">10 м</option><option value="25">25 м</option><option value="50" selected>50 м</option><option value="100">100 м</option></select><div class="corr"><button data-c="short">КОРОТКО → дальше</button><button data-c="long">ПЕРЕЛЁТ → ближе</button><button data-c="left">СЛЕВА → правее</button><button data-c="right">СПРАВА → левее</button></div></div>
-  <div class="footer">Калькулятор универсален для карт с сеткой 100 м. OCR работает локально на телефоне; при первом сканировании браузеру нужен интернет, чтобы загрузить OCR-движок. Высота рельефа и наклон SPH-2 автоматически не компенсируются.</div>
+  <div class="corrbar">
+    <select id="corrStep"><option value="10">10 м</option><option value="25">25 м</option><option value="50" selected>50 м</option><option value="100">100 м</option></select>
+    <div class="corr">
+      <button data-c="short">КОРОТКО → дальше</button>
+      <button data-c="long">ПЕРЕЛЁТ → ближе</button>
+      <button data-c="left">СЛЕВА → правее</button>
+      <button data-c="right">СПРАВА → левее</button>
+    </div>
+  </div>
+
+  <div class="footer">Координаты проверяются в диапазоне игрового мира 0–163.84. При неоднозначном вводе калькулятор не стреляет наугад: расчёт появляется только после однозначного разбора.</div>
 </div>
+
+<div id="firebar" class="firebar hidden">
+  <div class="firecell"><div class="k">DIST</div><div id="fireDist" class="v">—</div></div>
+  <div class="firecell"><div class="k">AZ</div><div id="fireAz" class="v">—</div></div>
+  <div class="firecell"><div class="k">MIL</div><div id="fireMil" class="v">—</div></div>
+</div>
+
 <script>
 (() => {
-  const $=id=>document.getElementById(id);
-  const gunX=$('gunX'),gunY=$('gunY'),targetX=$('targetX'),targetY=$('targetY');
-  const distanceEl=$('distance'),azimuthEl=$('azimuth'),deltaEl=$('delta'),arcsEl=$('arcs'),statusEl=$('status'),scanStatus=$('scanStatus');
-  let weapon=localStorage.getItem('wd_weapon')||'spg',gunLocked=localStorage.getItem('wd_gun_locked')!=='0',ocrPromise=null;
-  let data={mortar:{min:132,max:684,single:[[132,850],[151,830],[175,810],[198,790],[219,770],[239,750],[260,730],[280,710],[300,690],[319,670],[339,650],[358,630],[376,610],[394,590],[412,570],[429,550],[446,530],[462,510],[478,490],[494,470],[509,450],[524,430],[538,410],[552,390],[565,370],[578,350],[591,330],[603,310],[615,290],[626,270],[636,250],[646,230],[656,210],[666,190],[675,170],[684,150]]},spg:{min:780,max:2629,low:[[1181,20],[1384,60],[1576,100],[1751,140],[1907,180],[2046,220],[2168,260],[2273,300],[2362,340],[2439,380],[2499,420],[2550,460],[2586,500],[2610,540],[2626,580],[2629,600]],high:[[2629,610],[2624,650],[2604,700],[2567,750],[2513,800],[2444,850],[2360,900],[2261,950],[2147,1000],[2019,1050],[1875,1100],[1717,1150],[1547,1200],[1363,1250],[1165,1300],[956,1350],[780,1390]]}};
-  async function loadCurrentTables(){try{const r=await fetch('https://raw.githubusercontent.com/apollyon-sys/wardogs-calculator/main/data/weapons.json',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json(),m=j.weapons.find(w=>w.id==='mortar'),s=j.weapons.find(w=>w.id==='spg');if(m?.ballistics?.single&&s?.ballistics?.low&&s?.ballistics?.high){data.mortar={min:Math.round(m.minRangeKm*1000),max:Math.round(m.maxRangeKm*1000),single:m.ballistics.single};data.spg={min:Math.round(s.minRangeKm*1000),max:Math.round(s.maxRangeKm*1000),low:s.ballistics.low,high:s.ballistics.high};calc();}}catch(e){}}
-  function parseOne(v){const s=String(v??'').trim().replace(',','.');if(!s)return null;if(/^\d{1,3}\.\d{1,2}$/.test(s)){const n=Number(s);return Number.isFinite(n)?n:null}if(/^\d{3,5}$/.test(s)){const n=Number(s)/100;return Number.isFinite(n)?n:null}return null}
-  function formatOne(el){const n=parseOne(el.value);if(n!==null)el.value=n.toFixed(2)}function pair(x,y){const a=parseOne(x.value),b=parseOne(y.value);return a===null||b===null?null:{x:a,y:b}}function setPair(x,y,p){x.value=p.x.toFixed(2);y.value=p.y.toFixed(2)}
-  function loadGun(){try{const s=JSON.parse(localStorage.getItem('wd_gun_v2')||'null');if(s&&Number.isFinite(s.x)&&Number.isFinite(s.y)){setPair(gunX,gunY,s);return}}catch(e){}const old=localStorage.getItem('wd_gun');if(old){const m=old.match(/^\s*(\d{1,3}\.\d{2})\s+(\d{1,3}\.\d{2})\s*$/);if(m)setPair(gunX,gunY,{x:Number(m[1]),y:Number(m[2])})}}
-  function saveGun(){const g=pair(gunX,gunY);if(g)localStorage.setItem('wd_gun_v2',JSON.stringify(g))}
-  function interp(table,d){if(!table?.length)return null;for(let i=0;i<table.length-1;i++){const[d1,m1]=table[i],[d2,m2]=table[i+1],lo=Math.min(d1,d2),hi=Math.max(d1,d2);if(d>=lo&&d<=hi){if(d1===d2)return Math.min(m1,m2);return m1+(d-d1)/(d2-d1)*(m2-m1)}}for(const[x,m]of table)if(Math.abs(d-x)<.001)return m;return null}
-  function setStatus(t,c=''){statusEl.textContent=t;statusEl.className='status '+c}function arcBox(n,m,note='mil'){return `<div class="arc"><div class="name">${n}</div><div class="mil">${m==null?'—':Math.round(m)}</div><div class="note">${m==null?'нет решения':note}</div></div>`}function updateWeapon(){document.querySelectorAll('[data-w]').forEach(b=>b.classList.toggle('active',b.dataset.w===weapon))}function setWeapon(w){weapon=w;localStorage.setItem('wd_weapon',w);updateWeapon();calc()}
-  function calc(){const g=pair(gunX,gunY),t=pair(targetX,targetY);updateWeapon();if(!g||!t){distanceEl.textContent='—';azimuthEl.textContent='—';deltaEl.textContent='—';arcsEl.innerHTML=arcBox(weapon==='spg'?'LOW / HIGH':'ELEVATION',null);setStatus('ЖДУ КООРДИНАТЫ');return}const dx=(t.x-g.x)*100,dy=(t.y-g.y)*100,d=Math.hypot(dx,dy),az=(Math.atan2(dx,dy)*180/Math.PI+360)%360;distanceEl.textContent=Math.round(d);azimuthEl.textContent=az.toFixed(1)+'°';deltaEl.textContent=`${dx>=0?'+':''}${Math.round(dx)} / ${dy>=0?'+':''}${Math.round(dy)}`;const w=data[weapon];if(d<w.min||d>w.max){arcsEl.innerHTML=weapon==='spg'?arcBox('LOW ARC',null)+arcBox('HIGH ARC',null):arcBox('L81 ELEVATION',null);setStatus(`ВНЕ ДАЛЬНОСТИ · ${w.min}–${w.max} м`,'bad');return}if(weapon==='mortar'){const mil=interp(w.single,d);arcsEl.innerHTML=arcBox('L81 ELEVATION',mil,'mil');setStatus(mil==null?'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ':'В ДАЛЬНОСТИ',mil==null?'warn':'good')}else{const low=interp(w.low,d),high=interp(w.high,d);arcsEl.innerHTML=arcBox('LOW ARC',low,'mil · быстрее')+arcBox('HIGH ARC',high,'mil · навеснее');setStatus((low||high)?'В ДАЛЬНОСТИ':'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ',(low||high)?'good':'warn')}}
-  function showScan(t,c=''){scanStatus.textContent=t;scanStatus.className='scan-status show '+c}
-  function ensureOCR(){if(window.Tesseract)return Promise.resolve();if(ocrPromise)return ocrPromise;ocrPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=()=>reject(new Error('OCR load failed'));document.head.appendChild(s)});return ocrPromise}
-  async function makeCanvas(file){const bmp=await createImageBitmap(file),sx=Math.round(bmp.width*.12),sy=Math.round(bmp.height*.16),sw=Math.round(bmp.width*.76),sh=Math.round(bmp.height*.62),scale=Math.min(1.8,1800/sw),c=document.createElement('canvas');c.width=Math.max(1,Math.round(sw*scale));c.height=Math.max(1,Math.round(sh*scale));c.getContext('2d').drawImage(bmp,sx,sy,sw,sh,0,0,c.width,c.height);bmp.close?.();return c}
-  function valueFromMatch(m){return m?Number(`${m[1]}.${m[2]}`):null}
-  function extractCoords(data){let text=String(data?.text||'').replace(/[Oo]/g,'0').replace(/,/g,'.');const xm=text.match(/(?:^|\s|[^a-z])x\s*[:=]?\s*(\d{1,3})\s*[.]\s*(\d{2})/i),ym=text.match(/(?:^|\s|[^a-z])y\s*[:=]?\s*(\d{1,3})\s*[.]\s*(\d{2})/i);let x=valueFromMatch(xm),y=valueFromMatch(ym);if(x!==null&&y!==null)return{x,y,mode:'labels'};const xc=text.match(/(?:^|\s|[^a-z])x\s*[:=]?\s*(\d{3,5})(?!\d)/i),yc=text.match(/(?:^|\s|[^a-z])y\s*[:=]?\s*(\d{3,5})(?!\d)/i);if(x===null&&xc)x=Number(xc[1])/100;if(y===null&&yc)y=Number(yc[1])/100;if(x!==null&&y!==null)return{x,y,mode:'labels'};const words=(data?.words||[]).map(w=>({text:String(w.text||'').replace(',','.'),box:w.bbox})).filter(w=>/^\d{1,3}\.\d{2}$/.test(w.text));if(words.length>=2){words.sort((a,b)=>((a.box?.y0||0)+(a.box?.y1||0))-((b.box?.y0||0)+(b.box?.y1||0)));const top=Number(words[0].text),bottom=Number(words[words.length-1].text);if(Number.isFinite(top)&&Number.isFinite(bottom))return{x:bottom,y:top,mode:'position'}}return null}
-  async function scan(file,kind){if(!file)return;try{showScan('Загружаю OCR…','busy');await ensureOCR();showScan('Распознаю координаты… 0%','busy');const canvas=await makeCanvas(file),result=await Tesseract.recognize(canvas,'eng',{logger:m=>{if(m.status==='recognizing text')showScan(`Распознаю координаты… ${Math.round((m.progress||0)*100)}%`,'busy')}}),p=extractCoords(result.data);if(!p)throw new Error('coords');const xEl=kind==='gun'?gunX:targetX,yEl=kind==='gun'?gunY:targetY;setPair(xEl,yEl,p);if(kind==='gun')saveGun();calc();navigator.vibrate?.(60);showScan(`Готово: X ${p.x.toFixed(2)} · Y ${p.y.toFixed(2)}${p.mode==='position'?' (по расположению текста)':''}`,'good')}catch(e){showScan('Не смог уверенно прочитать X/Y. Сними ближе: крестик и подписи xNN.NN / yNN.NN должны быть примерно в центре кадра.','bad')}}
-  [gunX,gunY,targetX,targetY].forEach(el=>{el.addEventListener('input',()=>{if(gunLocked&&(el===gunX||el===gunY))saveGun();calc()});el.addEventListener('blur',()=>{formatOne(el);if(gunLocked&&(el===gunX||el===gunY))saveGun();calc()})});gunX.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();gunY.focus();gunY.select()}});targetX.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();targetY.focus();targetY.select()}});document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>setWeapon(b.dataset.w));$('lockGun').onclick=()=>{gunLocked=!gunLocked;localStorage.setItem('wd_gun_locked',gunLocked?'1':'0');$('lockGun').textContent=gunLocked?'🔒':'🔓';if(gunLocked)saveGun()};$('clearTarget').onclick=()=>{targetX.value='';targetY.value='';calc();targetX.focus()};document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const g=pair(gunX,gunY),t=pair(targetX,targetY);if(!g||!t)return;const step=Number($('corrStep').value),dx=(t.x-g.x)*100,dy=(t.y-g.y)*100,d=Math.hypot(dx,dy);if(!d)return;const ux=dx/d,uy=dy/d,rx=uy,ry=-ux;let mx=0,my=0;if(b.dataset.c==='short'){mx=ux*step;my=uy*step}if(b.dataset.c==='long'){mx=-ux*step;my=-uy*step}if(b.dataset.c==='left'){mx=rx*step;my=ry*step}if(b.dataset.c==='right'){mx=-rx*step;my=-ry*step}setPair(targetX,targetY,{x:t.x+mx/100,y:t.y+my/100});calc()});
-  $('scanGun').onclick=()=>$('scanGunInput').click();$('scanTarget').onclick=()=>$('scanTargetInput').click();$('scanGunInput').addEventListener('change',e=>{const f=e.target.files?.[0];e.target.value='';scan(f,'gun')});$('scanTargetInput').addEventListener('change',e=>{const f=e.target.files?.[0];e.target.value='';scan(f,'target')});
-  document.addEventListener('keydown',e=>{if(e.ctrlKey||e.altKey||e.metaKey)return;const tag=document.activeElement?.tagName,typing=tag==='INPUT'||tag==='SELECT';if(!typing&&(e.key==='g'||e.key==='G')){gunX.focus();gunX.select()}if(!typing&&(e.key==='t'||e.key==='T'||e.key==='/')){targetX.focus();targetX.select()}if(!typing&&e.key==='1')setWeapon('mortar');if(!typing&&e.key==='2')setWeapon('spg')});
-  loadGun();$('lockGun').textContent=gunLocked?'🔒':'🔓';updateWeapon();calc();loadCurrentTables();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+'use strict';
+const $=id=>document.getElementById(id);
+const COORD_MAX=163.84;
+const gunQuick=$('gunQuick'),targetQuick=$('targetQuick');
+const gunPreview=$('gunPreview'),targetPreview=$('targetPreview');
+const gunChoices=$('gunChoices'),targetChoices=$('targetChoices');
+const distanceEl=$('distance'),azimuthEl=$('azimuth'),deltaEl=$('delta'),arcsEl=$('arcs'),statusEl=$('status');
+const firebar=$('firebar'),fireDist=$('fireDist'),fireAz=$('fireAz'),fireMil=$('fireMil');
+let weapon=localStorage.getItem('wd_weapon')||'spg';
+let gun=null,target=null,draftGun=null,parseTimer=null,historyTimer=null;
+
+let data={
+ mortar:{min:132,max:684,single:[[132,850],[151,830],[175,810],[198,790],[219,770],[239,750],[260,730],[280,710],[300,690],[319,670],[339,650],[358,630],[376,610],[394,590],[412,570],[429,550],[446,530],[462,510],[478,490],[494,470],[509,450],[524,430],[538,410],[552,390],[565,370],[578,350],[591,330],[603,310],[615,290],[626,270],[636,250],[646,230],[656,210],[666,190],[675,170],[684,150]]},
+ spg:{min:780,max:2629,low:[[1181,20],[1384,60],[1576,100],[1751,140],[1907,180],[2046,220],[2168,260],[2273,300],[2362,340],[2439,380],[2499,420],[2550,460],[2586,500],[2610,540],[2626,580],[2629,600]],high:[[2629,610],[2624,650],[2604,700],[2567,750],[2513,800],[2444,850],[2360,900],[2261,950],[2147,1000],[2019,1050],[1875,1100],[1717,1150],[1547,1200],[1363,1250],[1165,1300],[956,1350],[780,1390]]}
+};
+
+async function loadCurrentTables(){
+ try{
+  const r=await fetch('https://raw.githubusercontent.com/apollyon-sys/wardogs-calculator/main/data/weapons.json',{cache:'no-store'});
+  if(!r.ok)throw 0;
+  const j=await r.json(),m=j.weapons.find(w=>w.id==='mortar'),s=j.weapons.find(w=>w.id==='spg');
+  if(m?.ballistics?.single&&s?.ballistics?.low&&s?.ballistics?.high){
+   data.mortar={min:Math.round(m.minRangeKm*1000),max:Math.round(m.maxRangeKm*1000),single:m.ballistics.single};
+   data.spg={min:Math.round(s.minRangeKm*1000),max:Math.round(s.maxRangeKm*1000),low:s.ballistics.low,high:s.ballistics.high};
+   calc();
+  }
+ }catch(e){}
+}
+
+function validCoord(n){return Number.isFinite(n)&&n>=0&&n<=COORD_MAX}
+function coordToken(s){if(!/^\d{4,5}$/.test(s))return null;const n=Number(s)/100;return validCoord(n)?n:null}
+function pairKey(p){return `${p.x.toFixed(2)}|${p.y.toFixed(2)}`}
+function compactPair(p){
+ const tok=n=>String(Math.round(n*100)).padStart(n<10?3:n<100?4:5,'0');
+ return tok(p.x)+tok(p.y);
+}
+function fmtPair(p){return `X ${p.x.toFixed(2)} · Y ${p.y.toFixed(2)}`}
+function distBetween(a,b){return Math.hypot((a.x-b.x)*100,(a.y-b.y)*100)}
+
+function parseExplicit(raw){
+ const s=String(raw||'').trim().replace(/,/g,'.');
+ const decimals=[...s.matchAll(/(\d{1,3}\.\d{2})/g)].map(m=>Number(m[1])).filter(validCoord);
+ if(decimals.length===2)return [{x:decimals[0],y:decimals[1],exact:true}];
+ const compact=s.match(/^\s*(\d{4,5})\D+(\d{4,5})\s*$/);
+ if(compact){
+  const x=coordToken(compact[1]),y=coordToken(compact[2]);
+  if(x!==null&&y!==null)return [{x,y,exact:true}];
+ }
+ return null;
+}
+function parseCandidates(raw){
+ const explicit=parseExplicit(raw);
+ if(explicit)return explicit;
+ const d=String(raw||'').replace(/\D/g,'');
+ if(d.length<8||d.length>10)return [];
+ const out=[];
+ for(let split=4;split<=5;split++){
+  if(d.length-split<4||d.length-split>5)continue;
+  const x=coordToken(d.slice(0,split)),y=coordToken(d.slice(split));
+  if(x===null||y===null)continue;
+  const p={x,y,exact:d.length!==9};
+  if(!out.some(q=>pairKey(q)===pairKey(p)))out.push(p);
+ }
+ if(gun)out.sort((a,b)=>distBetween(gun,a)-distBetween(gun,b));
+ return out;
+}
+function digitsOnly(el){
+ const v=el.value.replace(/\D/g,'').slice(0,10);
+ if(el.value!==v)el.value=v;
+ return v;
+}
+function setPreview(el,text,cls=''){el.textContent=text;el.className='preview '+cls}
+function clearChoices(el){el.innerHTML=''}
+
+function renderChoices(kind,candidates){
+ const box=kind==='gun'?gunChoices:targetChoices;
+ clearChoices(box);
+ const ref=gun;
+ candidates.forEach(p=>{
+  const b=document.createElement('button');
+  const distance=kind==='target'&&ref?` · ${Math.round(distBetween(ref,p))} м`:'';
+  b.textContent=`Выбрать ${fmtPair(p)}${distance}`;
+  b.onclick=()=>acceptPair(kind,p,true);
+  box.appendChild(b);
+ });
+}
+
+function parseInput(kind,raw){
+ const preview=kind==='gun'?gunPreview:targetPreview;
+ const choices=kind==='gun'?gunChoices:targetChoices;
+ clearChoices(choices);
+ const d=String(raw||'').replace(/\D/g,'');
+ if(!raw){setPreview(preview,'');return}
+ const candidates=parseCandidates(raw);
+ if(candidates.length===1){acceptPair(kind,candidates[0],false);return}
+ if(candidates.length>1){
+  if(kind==='gun')draftGun=null;else{target=null;calc()}
+  setPreview(preview,'Неоднозначные 9 цифр — выбери правильный вариант одним тапом.','warn');
+  renderChoices(kind,candidates);
+  return;
+ }
+ if(d.length<8){setPreview(preview,`Ещё цифры… сейчас ${d.length}/8 минимум`,'warn')}
+ else{
+  if(kind==='gun')draftGun=null;else{target=null;calc()}
+  setPreview(preview,'Не могу безопасно разобрать координаты — ничего не подставил.','bad');
+ }
+}
+
+function acceptPair(kind,p,fromChoice){
+ if(kind==='gun'){
+  draftGun={x:p.x,y:p.y};
+  gunQuick.value=compactPair(p);
+  setPreview(gunPreview,`${fmtPair(p)} ✓${fromChoice?' · выбран вручную':''}`,'good');
+  clearChoices(gunChoices);
+ }else{
+  target={x:p.x,y:p.y};
+  targetQuick.value=compactPair(p);
+  setPreview(targetPreview,`TARGET → ${fmtPair(p)} ✓${fromChoice?' · выбран вручную':''}`,'good');
+  clearChoices(targetChoices);
+  calc();
+  navigator.vibrate?.(35);
+  clearTimeout(historyTimer);
+  historyTimer=setTimeout(()=>rememberTarget(p),700);
+ }
+}
+
+function saveGun(){
+ if(!draftGun){setPreview(gunPreview,'Сначала введи координаты орудия.','warn');return}
+ gun={...draftGun};
+ localStorage.setItem('wd_gun_fast',JSON.stringify(gun));
+ localStorage.setItem('wd_gun_v2',JSON.stringify(gun));
+ showGunSummary();
+ calc();
+ targetQuick.focus();
+ setTimeout(()=>targetQuick.select(),30);
+}
+function showGunSummary(){
+ if(!gun)return;
+ $('gunValue').textContent=fmtPair(gun);
+ $('gunSummary').hidden=false;
+ $('gunEditor').hidden=true;
+}
+function editGun(){
+ $('gunSummary').hidden=true;
+ $('gunEditor').hidden=false;
+ if(gun){draftGun={...gun};gunQuick.value=compactPair(gun);setPreview(gunPreview,`${fmtPair(gun)} ✓`,'good')}
+ setTimeout(()=>{gunQuick.focus();gunQuick.select()},30);
+}
+function loadGun(){
+ const keys=['wd_gun_fast','wd_gun_v2'];
+ for(const k of keys){
+  try{
+   const p=JSON.parse(localStorage.getItem(k)||'null');
+   if(p&&validCoord(Number(p.x))&&validCoord(Number(p.y))){gun={x:Number(p.x),y:Number(p.y)};draftGun={...gun};showGunSummary();return}
+  }catch(e){}
+ }
+ try{
+  const old=localStorage.getItem('wd_gun');
+  if(old){
+   const c=parseCandidates(old);
+   if(c.length===1){gun={x:c[0].x,y:c[0].y};draftGun={...gun};showGunSummary()}
+  }
+ }catch(e){}
+}
+
+function rememberTarget(p){
+ let arr=[];
+ try{arr=JSON.parse(localStorage.getItem('wd_recent_targets')||'[]')}catch(e){}
+ arr=arr.filter(x=>x&&pairKey(x)!==pairKey(p));
+ arr.unshift({x:p.x,y:p.y});
+ arr=arr.slice(0,3);
+ localStorage.setItem('wd_recent_targets',JSON.stringify(arr));
+ renderRecent();
+}
+function renderRecent(){
+ let arr=[];
+ try{arr=JSON.parse(localStorage.getItem('wd_recent_targets')||'[]')}catch(e){}
+ const box=$('recent');box.innerHTML='';
+ arr.filter(p=>p&&validCoord(Number(p.x))&&validCoord(Number(p.y))).forEach(p=>{
+  const b=document.createElement('button');
+  b.textContent=`↶ ${Number(p.x).toFixed(2)}/${Number(p.y).toFixed(2)}`;
+  b.onclick=()=>acceptPair('target',{x:Number(p.x),y:Number(p.y)},true);
+  box.appendChild(b);
+ });
+}
+
+function interp(table,d){
+ if(!table?.length)return null;
+ for(let i=0;i<table.length-1;i++){
+  const[d1,m1]=table[i],[d2,m2]=table[i+1],lo=Math.min(d1,d2),hi=Math.max(d1,d2);
+  if(d>=lo&&d<=hi){if(d1===d2)return Math.min(m1,m2);return m1+(d-d1)/(d2-d1)*(m2-m1)}
+ }
+ for(const[x,m]of table)if(Math.abs(d-x)<.001)return m;
+ return null;
+}
+function arcBox(name,mil,note='mil'){return `<div class="arc"><div class="n">${name}</div><div class="mil">${mil==null?'—':Math.round(mil)}</div><div class="s">${mil==null?'нет решения':note}</div></div>`}
+function setStatus(t,c=''){statusEl.textContent=t;statusEl.className='status '+c}
+function updateWeapon(){document.querySelectorAll('[data-w]').forEach(b=>b.classList.toggle('active',b.dataset.w===weapon))}
+function setWeapon(w){weapon=w;localStorage.setItem('wd_weapon',w);updateWeapon();calc()}
+
+function calc(){
+ updateWeapon();
+ if(!gun||!target){
+  distanceEl.textContent=azimuthEl.textContent=deltaEl.textContent='—';
+  arcsEl.innerHTML=arcBox(weapon==='spg'?'LOW / HIGH':'ELEVATION',null);
+  setStatus(!gun?'НУЖНО ОРУДИЕ':'ЖДУ ЦЕЛЬ');
+  firebar.classList.add('hidden');
+  return;
+ }
+ const dx=(target.x-gun.x)*100,dy=(target.y-gun.y)*100,dist=Math.hypot(dx,dy),azi=(Math.atan2(dx,dy)*180/Math.PI+360)%360;
+ distanceEl.textContent=Math.round(dist);azimuthEl.textContent=azi.toFixed(1)+'°';deltaEl.textContent=`${dx>=0?'+':''}${Math.round(dx)} / ${dy>=0?'+':''}${Math.round(dy)}`;
+ fireDist.textContent=Math.round(dist)+'м';fireAz.textContent=azi.toFixed(1)+'°';firebar.classList.remove('hidden');
+ const w=data[weapon];
+ if(dist<w.min||dist>w.max){
+  arcsEl.innerHTML=weapon==='spg'?arcBox('LOW ARC',null)+arcBox('HIGH ARC',null):arcBox('L81 ELEVATION',null);
+  setStatus(`ВНЕ ДАЛЬНОСТИ · ${w.min}–${w.max} м`,'bad');fireMil.textContent='—';return;
+ }
+ if(weapon==='mortar'){
+  const mil=interp(w.single,dist);
+  arcsEl.innerHTML=arcBox('L81 ELEVATION',mil,'mil');
+  setStatus(mil==null?'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ':'В ДАЛЬНОСТИ',mil==null?'warn':'good');
+  fireMil.textContent=mil==null?'—':String(Math.round(mil));
+ }else{
+  const low=interp(w.low,dist),high=interp(w.high,dist);
+  arcsEl.innerHTML=arcBox('LOW ARC',low,'mil')+arcBox('HIGH ARC',high,'mil');
+  setStatus((low||high)?'В ДАЛЬНОСТИ':'НЕТ ТАБЛИЧНОГО РЕШЕНИЯ',(low||high)?'good':'warn');
+  fireMil.textContent=low||high?`${low==null?'—':Math.round(low)}/${high==null?'—':Math.round(high)}`:'—';
+ }
+}
+
+function clearTarget(){
+ clearTimeout(parseTimer);clearTimeout(historyTimer);
+ target=null;targetQuick.value='';setPreview(targetPreview,'');clearChoices(targetChoices);calc();
+ targetQuick.focus();
+}
+function applyCorrection(kind){
+ if(!gun||!target)return;
+ const step=Number($('corrStep').value),dx=(target.x-gun.x)*100,dy=(target.y-gun.y)*100,d=Math.hypot(dx,dy);if(!d)return;
+ const ux=dx/d,uy=dy/d,rx=uy,ry=-ux;let mx=0,my=0;
+ if(kind==='short'){mx=ux*step;my=uy*step}
+ if(kind==='long'){mx=-ux*step;my=-uy*step}
+ if(kind==='left'){mx=rx*step;my=ry*step}
+ if(kind==='right'){mx=-rx*step;my=-ry*step}
+ const p={x:target.x+mx/100,y:target.y+my/100};
+ if(validCoord(p.x)&&validCoord(p.y))acceptPair('target',p,true);
+}
+
+function setupFastField(el,kind){
+ el.addEventListener('input',()=>{
+  const raw=digitsOnly(el);
+  if(kind==='gun')draftGun=null;else{target=null;calc()}
+  clearTimeout(parseTimer);
+  parseTimer=setTimeout(()=>parseInput(kind,raw),170);
+ });
+ el.addEventListener('focus',()=>{if(el.value)setTimeout(()=>el.select(),20)});
+}
+
+setupFastField(gunQuick,'gun');setupFastField(targetQuick,'target');
+$('clearGun').onclick=()=>{draftGun=null;gunQuick.value='';setPreview(gunPreview,'');clearChoices(gunChoices);gunQuick.focus()};
+$('saveGun').onclick=saveGun;$('editGun').onclick=editGun;$('newTarget').onclick=clearTarget;
+document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>setWeapon(b.dataset.w));
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>applyCorrection(b.dataset.c));
+
+function selfTest(){
+ const tests=[
+  ['81546707','81.54|67.07'],
+  ['1021210345','102.12|103.45'],
+  ['102126707','102.12|67.07']
+ ];
+ for(const [raw,key] of tests){
+  const c=parseCandidates(raw);
+  console.assert(c.some(p=>pairKey(p)===key),`parse failed ${raw}`,c);
+ }
+}
+loadGun();renderRecent();updateWeapon();calc();loadCurrentTables();selfTest();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(r=>r.update()).catch(()=>{}));
 })();
 </script>
 </body>
